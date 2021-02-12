@@ -1,0 +1,159 @@
+﻿@model TropicalServerApp.Models.Login
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - TropicalServer</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @*@Styles.Render("~/Content/TropicalStyles/Login.css")
+        <link rel="stylesheet" type="text/css" href = "~/Content/TropicalStyles/Login.css">*@
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+    </style>
+    <script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script type="text/javascript">
+        $("input[name=submit]").submit(function (event) {
+            if ($("#useridtextbox").val() != "admin" || $("#passwordtextbox").val() != "admin") {
+                $("#passwordAnsIdShow").show();
+                event.preventDefault();
+            }
+
+        });
+
+        $(function () {
+
+            if (localStorage.chkbx && localStorage.chkbx != '') {
+                $('#rememberMe').attr('checked', 'checked');
+                $('#useridtextbox').val(localStorage.usrname);
+            } else {
+                $('#rememberMe').removeAttr('checked');
+                $('#useridtextbox').val('');
+            }
+
+            $('#rememberMe').click(function () {
+
+                if ($('#rememberMe').is(':checked')) {
+                    // save username and password
+                    localStorage.usrname = $('#useridtextbox').val();
+                    localStorage.chkbx = $('#rememberMe').val();
+                } else {
+                    localStorage.usrname = '';
+                    localStorage.chkbx = '';
+                }
+            });
+        });
+    </script>
+</head>
+@*<body>
+        <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            </footer>
+        </div>
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+    </body>*@
+<body>
+
+
+
+    <div class="container">
+
+        <div class="main">
+
+            <div class="imageDisplay">
+                <img height="100" src="@Url.Content("~/Images/Header.jpg")" />
+
+            </div>
+
+            <div id="">
+                <div id="BodyDetail" style="height: 340px; width: 420px; margin: 100px auto; background-color: #FF6600; color: #FFFFFF; padding: 10px;">
+
+
+                    @*Login Box  Here *@
+                    <label id="Loginlbl" for="Tracking">Mobile Customer Order Tracking</label>
+                    <div id="loginBox" style="height: 220px; margin-top: 10px; width: 400px; background-color: #FFCC00;">
+                        <div id="passwordAnsIdShow" runat="server" style="display:none; align-content:center;"><label id="wrongPass" class="field-validation-error" for="passwordidshow">Please Enter the correct Password or User ID!</label></div>
+
+                        <form action="Submit" method="post">
+                            <label id="useridlbl" style="color: White; font-family: Calibri; font-size: 16pt; margin-left: 20px;" for="useridtextbox">Login ID: </label>
+                            <input id="useridtextbox" style="width: 250px; color:black; margin-top: 50px; margin-left: 24px;" name="loginID" type="text" required><br>
+
+                            <label id="passwordlbl" style="color: White; font-family: Calibri; font-size: 16pt; margin-left: 20px;" for="passwordtextbox">Password: </label>
+                            <input id="passwordtextbox" style="width: 250px; color:black; margin-top: 29px; margin-left: 13px;" name="ThisPassword" type="password" required><br>
+
+                            <div id="login" style="margin-top: 30px; text-align: center;">
+                                <label for="rememberMe">Remember my ID</label>
+                                <input type="checkbox" id="rememberMe" name="rememberid" value="IsRememberMe">
+
+                                <input id="loginButton" style="margin-left: 50px; background-color:black;" name="submit" type="submit" value="Log-In">
+                            </div>
+                        </form>
+
+                    </div>
+                    <div id="forgot" style="text-align: center; margin-top: 15px;">
+                        <a id="forgotUsername" href="/Login/GetID" style="font-family: Calibri; font-size: 16px; text-decoration: underline; color: #FFFFFF; margin-left: 50px;">Forgot Username</a>
+                        <a id="forgotPassword" href="/Login/GetPassword" style="font-family: calibri; font-size: 16px; text-decoration: underline; color: #FFFFFF; margin-right: 50px;">Forgot Password</a>
+                    </div>
+
+
+                </div>
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                </footer>
+            </div>
+        </div>
+
+    </div>
+
+    @*<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $("input[name=submit]").submit(function (event) {
+            if ($("#useridtextbox").val() != "admin" || $("#passwordtextbox").val() != "admin") {
+                $("#passwordAnsIdShow").show();
+                event.preventDefault();
+            }
+
+        })
+    </script>*@
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

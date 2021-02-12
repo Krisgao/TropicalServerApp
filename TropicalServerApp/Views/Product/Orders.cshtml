@@ -1,0 +1,150 @@
+﻿
+@{
+    ViewBag.Title = "Orders";
+}
+<link href="~/Content/TropicalStyles/Orders.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
+<style>
+    #CriteriaBar {
+        background-color: #2C4E81;
+        padding: 9px;
+        margin-top: 5px;
+        height: 36px;
+    }
+</style>
+<h2>Orders</h2>
+<div id="div1" style="margin-bottom:30px;"><form action="LogOff" method="post"><input style="float:right; font-family:'Franklin Gothic Medium', 'Arial Narrow'; background-color:red;color:white;" type="submit" value="Log-Out"></form></div>
+<div id="CriteriaBar">
+    <div class="Criteria" style="display:inline;">
+        <label class="label" style="font-size:15px;">Order Date: </label>
+        <select>
+            <option value="Today">Today</option>
+            <option value="Last 7 Days">Last 7 Days</option>
+            <option value="Last 1 month">Last 1 month</option>
+            <option value="Last 6 months">Last 6 months</option>
+        </select>
+    </div>
+    <div class="Criteria" style="display:inline;">
+
+        <label class="label" style="font-size:15px;">Customer ID: </label>
+
+
+        <input class="input" id="Customerids" name="Customerids" type="text">
+
+
+
+
+    </div>
+    <div class="Criteria" style="display:inline;">
+        <label class="label" style="font-size:12px;">Customer Name: </label>
+        <input class="input" id="CustomerName" name="CustomerName" type="text">
+    </div>
+    <div class="Criteria" style="display:inline;">
+        <label class="label" style="font-size:15px;">Sales Manager: </label>
+        <input class="input" name="SalesManager" type="text">
+
+    </div>
+</div>
+<div>
+    <table id="thisData" class="gvOrders">
+        <thead>
+            <tr>
+                <th>Tracking #</th>
+                <th>Order Date</th>
+                <th>Customer ID</th>
+                <th>Customer Name</th>
+                <th>Address</th>
+                <th>Route #</th>
+                <th>Avaliable Actions</th>
+            </tr>
+        </thead>
+        @*<tbody>
+                @foreach (DataRow row in Model.Tables[0].Rows)
+                {
+                    <tr>
+                        <td>@row["OrderTrackingNumber"]</td>
+                        <td>@row["OrderDate"]</td>
+                        <td>@row["CustNumber"]</td>
+                        <td>@row["CustName"]</td>
+                        <td>@row["CustOfficeAddress1"]</td>
+                        <td>@row["CustRouteNumber"]</td>
+                        <td>1</td>
+                    </tr>
+                }
+            </tbody>*@
+        <tr class='notfound'>
+            <td colspan='4'>No record found</td>
+        </tr>
+    </table>
+</div>
+<script>
+    $(function () {
+        $.get("Get_data", {}, function (data) {
+            var row;
+            $.each(data, function (i, v1) {
+                row += "<tbody style='background-color:#eab1b1;'><tr><td >" + v1.TrackingNum + "</td><td>" + v1.OrderDate + "</td><td>" + v1.CustomerID + "</td><td>" + v1.CustomerName + "</td><td>" + v1.Address + "</td><td>" + v1.RouteNum + "</td><td><a style='text-decoration: underline;' href='/Product/Read/" + v1.TrackingNum + "'>View</a>&nbsp;<a style='text-decoration: underline;' href=''>Edit</a>&nbsp;<a style='text-decoration: underline;' href='/Product/Delete/" + v1.TrackingNum + "'>Delete</a></td></tr></tbody>"
+            });
+            $("#thisData").append(row);
+            var len = $('table tbody tr:not(.notfound) td ').length;
+            if (len == 0) {
+                $('.notfound').show();
+            } else {
+                $('.notfound').hide();
+                $("#thisData").append(row);
+            }
+        })
+    })
+
+    $(document).ready(function () {
+
+        // Search on id column only
+        $('#CustomerName').keyup(function () {
+            // Search Text
+            var search = $(this).val();
+
+            // Hide all table tbody rows
+            $('table tbody tr').hide();
+
+            // Count total search result
+            var len = $('table tbody tr:not(.notfound) td:nth-child(4):contains("' + search + '")').length;
+
+            if (len > 0) {
+                // Searching text in columns and show match row
+                $('table tbody tr:not(.notfound) td:contains("' + search + '")').each(function () {
+                    $(this).closest('tr').show();
+                });
+            } else {
+                $('.notfound').show();
+            }
+
+        });
+
+        // Search on id column only
+        $('#Customerids').keyup(function () {
+            // Search Text
+            var search = $(this).val();
+
+            // Hide all table tbody rows
+            $('table tbody tr').hide();
+
+            // Count total search result
+            var len = $('table tbody tr:not(.notfound) td:nth-child(3):contains("' + search + '")').length;
+
+            if (len > 0) {
+                // Searching text in columns and show match row
+                $('table tbody tr:not(.notfound) td:contains("' + search + '")').each(function () {
+                    $(this).closest('tr').show();
+                });
+            } else {
+                $('.notfound').show();
+            }
+
+        });
+
+    });
+    $.expr[":"].contains = $.expr.createPseudo(function (arg) {
+        return function (elem) {
+            return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+        };
+    });
+</script>

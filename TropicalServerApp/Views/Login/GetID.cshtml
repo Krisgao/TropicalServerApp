@@ -1,0 +1,39 @@
+﻿@model TropicalServerApp.Models.GetName
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Get Your ID</title>
+</head>
+<body>
+    <div>
+        <div id="BodyDetail" style="height: 280px; width: 400px; margin: 100px auto; background-color: #FF6600; color: #FFFFFF; padding: 10px;">
+
+
+            <label id="Loginlbl" for="Tracking">Tell Us your Email associated to the User’s account!</label>
+            <div id="loginBox" style="height: 220px; margin-top: 10px; width: 400px; background-color: #FFCC00;">
+
+                <form action="check" method="post">
+                    <label id="usereamillbl" style="color: White; font-family: Calibri; font-size: 13pt; margin-left: 20px;" for="useridtextbox">Email: </label>
+                    <input id="usereamiltextbox" style="width: 200px; color:black; margin-top: 50px; margin-left: 24px;" name="Accountemail" type="text"><br>
+
+                    <span style="padding-left: 30px; margin-top: 20px;">We will send your Usename by email after you click send button!</span><br />
+
+                    <div id="login" style="margin-top: 30px; text-align: center;">
+
+
+                        <input id="sendButton" style="margin-left: 50px; background-color:darkgreen; color:white;" name="submit" type="submit" value="Send">
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</body>
+</html>
